@@ -27,7 +27,7 @@ tasks {
     compileKotlin {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xinline-classes")
+            freeCompilerArgs = listOf("-Xinline-classes", "-Xuse-experimental=kotlin.Experimental")
         }
     }
     compileTestKotlin {
