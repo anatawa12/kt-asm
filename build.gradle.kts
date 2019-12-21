@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     java
     kotlin("jvm") version "1.3.61"
@@ -23,7 +25,10 @@ configure<JavaPluginConvention> {
 }
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xinline-classes")
+        }
     }
     compileTestKotlin {
         kotlinOptions.jvmTarget = "1.8"
