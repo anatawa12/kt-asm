@@ -11,7 +11,10 @@ repositories {
 }
 
 dependencies {
+    val asmVersion = "7.2"
+
     implementation(kotlin("stdlib-jdk8"))
+    implementation("org.ow2.asm:asm:$asmVersion")
     testCompile("junit", "junit", "4.12")
 }
 
