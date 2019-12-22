@@ -31,9 +31,9 @@ class Handle private constructor(
                 = Handle(Kind.NewInvokeSpecial, owner, name, descriptor.descriptor, false)
 
         fun invokeStatic(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle
-                = Handle(Kind.InvokeStatic, owner, name, descriptor, .descriptorisInterface)
+                = Handle(Kind.InvokeStatic, owner, name, descriptor.descriptor, isInterface)
         fun invokeSpecial(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle
-                = Handle(Kind.InvokeSpecial, owner, name, descriptor, .descriptorisInterface)
+                = Handle(Kind.InvokeSpecial, owner, name, descriptor.descriptor, isInterface)
 
         fun invokeInterface(owner: Type, name: String, descriptor: MethodType): Handle
                 = Handle(Kind.InvokeInterface, owner, name, descriptor.descriptor, true)
