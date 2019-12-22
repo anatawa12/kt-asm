@@ -2,27 +2,27 @@ package com.anatawa12.asm
 
 import com.anatawa12.asm.internal.DescriptorVerifier
 
-class MethodType(val descriptor: Descriptor) {
+class MethodType(val descriptor: String) {
     init {
-        require(DescriptorVerifier(descriptor.descriptor).verifyMethod()) { "invalid descriptor: $descriptor" }
+        require(DescriptorVerifier(descriptor).verifyMethod()) { "invalid descriptor: $descriptor" }
     }
 
     val returnType: Type
-        get() = Type(Descriptor(descriptor.descriptor.substring(descriptor.descriptor.indexOf(')') + 1)))
+        get() = Type(descriptor.substring(descriptor.indexOf(')') + 1))
 
     val argumentTypes: Sequence<Type>
         get() = sequence {
-            val descriptor = descriptor.descriptor
+            val descriptor = descriptor
             var index = 1
             while (true) {
                 when (descriptor[index]) {
                     in descriptor -> {
-                        yield(Type(Descriptor(descriptor.substring(index, index))))
+                        yield(Type(descriptor.substring(index, index)))
                     }
                     'L' -> {
                         val start = index
                         index = descriptor.indexOf(';', index)
-                        yield(Type(Descriptor(descriptor.substring(start, index))))
+                        yield(Type(descriptor.substring(start, index)))
                     }
                     ')' -> return@sequence
                     else -> throw AssertionError()
@@ -46,5 +46,5 @@ class MethodType(val descriptor: Descriptor) {
         return descriptor.hashCode()
     }
 
-    override fun toString(): String = descriptor.descriptor
+    override fun toString(): String = descriptor
 }

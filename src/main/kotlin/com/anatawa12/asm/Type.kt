@@ -2,13 +2,13 @@ package com.anatawa12.asm
 
 import com.anatawa12.asm.internal.DescriptorVerifier
 
-class Type(val descriptor: Descriptor) {
+class Type(val descriptor: String) {
     init {
-        require(DescriptorVerifier(descriptor.descriptor).verifyType()) { "invalid descriptor: $descriptor" }
+        require(DescriptorVerifier(descriptor).verifyType()) { "invalid descriptor: $descriptor" }
     }
 
     val kind: Kind
-        get() = when (descriptor.descriptor[0]) {
+        get() = when (descriptor[0]) {
             '[' -> Kind.Array
             'L' -> Kind.Class
             else -> Kind.Primitive
@@ -16,29 +16,29 @@ class Type(val descriptor: Descriptor) {
 
     val internalName: InternalName
         get() = when (kind) {
-            Kind.Class -> InternalName(descriptor.descriptor.run { substring(1, length - 1) })
-            else -> InternalName(descriptor.descriptor)
+            Kind.Class -> InternalName(descriptor.run { substring(1, length - 1) })
+            else -> InternalName(descriptor)
         }
 
     val elementType: Type
         get() {
             require(kind == Kind.Array) { "this is not array" }
-            return Type(Descriptor(descriptor.descriptor.substring(1)))
+            return Type(descriptor.substring(1))
         }
 
     val dimensions: Int
         get() {
-            for (dimension in descriptor.descriptor.indices) {
-                if (descriptor.descriptor[dimension] != '[') return dimension
+            for (dimension in descriptor.indices) {
+                if (descriptor[dimension] != '[') return dimension
             }
             throw AssertionError()
         }
 
     val bottomElementType: Type
-        get() = Type(Descriptor(descriptor.descriptor.substring(dimensions)))
+        get() = Type(descriptor.substring(dimensions))
 
     val size: Int
-        get() = when (descriptor.descriptor[0]) {
+        get() = when (descriptor[0]) {
             'V' -> 0
             'D', 'J' -> 2
             else -> 1
@@ -65,5 +65,5 @@ class Type(val descriptor: Descriptor) {
         return descriptor.hashCode()
     }
 
-    override fun toString(): String = descriptor.descriptor
+    override fun toString(): String = descriptor
 }

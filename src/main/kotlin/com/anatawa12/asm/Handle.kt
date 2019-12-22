@@ -12,7 +12,7 @@ class Handle private constructor(
     val kind: Kind,
     val owner: Type,
     val name1: String,
-    val descriptor: Descriptor,
+    val descriptor: String,
     val isInterface: Boolean
 ) {
     companion object {

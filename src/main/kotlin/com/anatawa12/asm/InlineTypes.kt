@@ -43,12 +43,6 @@ inline class Signature(val sig: String)
 inline class InternalName(val name: String)
 
 /**
- * the descriptor of field or method.
- * like 'Ljava/lang/String;' '()V'
- */
-inline class Descriptor(val descriptor: String)
-
-/**
  * the access flags for class file.
  */
 typealias ClassAccessFlags = AccessFlags
