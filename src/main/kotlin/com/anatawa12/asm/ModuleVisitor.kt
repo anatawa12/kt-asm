@@ -10,7 +10,7 @@ interface ModuleVisitor {
      *
      * @param mainClass the internal name of the main class of the current module.
      */
-    fun visitMainClass(mainClass: InternalName)
+    fun visitMainClass(mainClass: Type)
 
     /**
      * Visit a package of the current module.
@@ -54,7 +54,7 @@ interface ModuleVisitor {
      *
      * @param service the internal name of the service.
      */
-    fun visitUse(service: InternalName)
+    fun visitUse(service: Type)
 
     /**
      * Visit an implementation of a service.
@@ -63,8 +63,7 @@ interface ModuleVisitor {
      * @param providers the internal names of the implementations of the service (there is at least
      * one provider).
      */
-    @Suppress("FORBIDDEN_VARARG_PARAMETER_TYPE")
-    fun visitProvide(service: InternalName, vararg providers: InternalName)
+    fun visitProvide(service: Type, vararg providers: Type)
 
     /**
      * Visits the end of the module.

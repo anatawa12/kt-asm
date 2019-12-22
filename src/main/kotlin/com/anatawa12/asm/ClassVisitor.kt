@@ -15,10 +15,10 @@ interface ClassVisitor {
     fun visit(
         version: ClassVersion,
         access: ClassAccessFlags,
-        name: InternalName,
+        name: Type,
         signature: Signature?,
-        superName: InternalName?,
-        interfaces: List<InternalName>
+        superName: Type?,
+        interfaces: List<Type>
     )
 
     /**
@@ -37,7 +37,7 @@ interface ClassVisitor {
     /**
      * visits nest host name
      */
-    fun visitNestHost(nestHost: InternalName)
+    fun visitNestHost(nestHost: Type)
 
     /**
      * visits outer class and method.
@@ -46,7 +46,7 @@ interface ClassVisitor {
      * @param name name of the method
      * @param descriptor descriptor of the method
      */
-    fun visitOuterClass(owner: InternalName, name: String?, descriptor: Descriptor?)
+    fun visitOuterClass(owner: Type, name: String?, descriptor: Descriptor?)
 
     /**
      * Visits an annotation on a type in the class signature.
@@ -55,7 +55,7 @@ interface ClassVisitor {
      * @param visible true if the annotation is visible at runtime.
      * @return a visitor to visit the annotation.
      */
-    fun visitAnnotation(descriptor: Descriptor, visible: Boolean): AnnotationVisitor?
+    fun visitAnnotation(descriptor: Type, visible: Boolean): AnnotationVisitor?
 
     /**
      * Visits an annotation on a type in the class signature.
@@ -67,7 +67,7 @@ interface ClassVisitor {
     fun visitTypeAnnotation(
         typeRef: TypeAnnotationTarget,
         typePath: TypePath,
-        descriptor: Descriptor,
+        descriptor: Type,
         visible: Boolean
     ): AnnotationVisitor?
 
@@ -80,7 +80,7 @@ interface ClassVisitor {
      * visits nest member name
      * @param nestMember nested member name
      */
-    fun visitNestMember(nestMember: InternalName)
+    fun visitNestMember(nestMember: Type)
 
     /**
      * visits inner class
@@ -91,8 +91,8 @@ interface ClassVisitor {
      * @param access inner class' access flag
      */
     fun visitInnerClass(
-        name: InternalName,
-        outerName: InternalName?,
+        name: Type,
+        outerName: Type?,
         innerName: String?,
         access: InnerClassAccessFlags
     )
@@ -108,7 +108,7 @@ interface ClassVisitor {
     fun visitField(
         access: FieldAccessFlags,
         name: String,
-        descriptor: Descriptor,
+        descriptor: Type,
         signature: Signature?,
         value: Any?
     ): FieldVisitor
@@ -127,7 +127,7 @@ interface ClassVisitor {
         name: String,
         descriptor: Descriptor,
         signature: Signature?,
-        exceptions: List<InternalName>
+        exceptions: List<Type>
     ): MethodVisitor
 
     fun visitEnd()

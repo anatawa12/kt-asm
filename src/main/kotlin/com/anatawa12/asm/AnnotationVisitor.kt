@@ -23,7 +23,7 @@ interface AnnotationVisitor {
      * @param descriptor the class descriptor of enum class.
      * @param value the enum value name.
      */
-    fun visitEnum(name: String, descriptor: Descriptor, value: String)
+    fun visitEnum(name: String, descriptor: Type, value: String)
 
     /**
      * visits a nested annotation value.
@@ -31,7 +31,7 @@ interface AnnotationVisitor {
      * @param descriptor the class descriptor of the nested annotation class.
      * @return a visitor to visit nested annotation value.
      */
-    fun visitAnnotation(name: String, descriptor: Descriptor): AnnotationVisitor?
+    fun visitAnnotation(name: String, descriptor: Type): AnnotationVisitor?
 
     /**
      * visits an array value.

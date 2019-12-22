@@ -10,32 +10,32 @@ import org.objectweb.asm.Opcodes
  */
 class Handle private constructor(
     val kind: Kind,
-    val owner: InternalName,
+    val owner: Type,
     val name1: String,
     val descriptor: Descriptor,
     val isInterface: Boolean
 ) {
     companion object {
-        fun getField(owner: InternalName, name: String, descriptor: Descriptor): Handle
-                = Handle(Kind.GetField, owner, name, descriptor, false)
-        fun putField(owner: InternalName, name: String, descriptor: Descriptor): Handle
-                = Handle(Kind.PutField, owner, name, descriptor, false)
-        fun getStatic(owner: InternalName, name: String, descriptor: Descriptor): Handle
-                = Handle(Kind.GetStatic, owner, name, descriptor, false)
-        fun putStatic(owner: InternalName, name: String, descriptor: Descriptor): Handle
-                = Handle(Kind.PutStatic, owner, name, descriptor, false)
+        fun getField(owner: Type, name: String, descriptor: Type): Handle
+                = Handle(Kind.GetField, owner, name, descriptor.descriptor, false)
+        fun putField(owner: Type, name: String, descriptor: Type): Handle
+                = Handle(Kind.PutField, owner, name, descriptor.descriptor, false)
+        fun getStatic(owner: Type, name: String, descriptor: Type): Handle
+                = Handle(Kind.GetStatic, owner, name, descriptor.descriptor, false)
+        fun putStatic(owner: Type, name: String, descriptor: Type): Handle
+                = Handle(Kind.PutStatic, owner, name, descriptor.descriptor, false)
 
-        fun invokeVirtual(owner: InternalName, name: String, descriptor: Descriptor): Handle
+        fun invokeVirtual(owner: Type, name: String, descriptor: Descriptor): Handle
                 = Handle(Kind.InvokeVirtual, owner, name, descriptor, false)
-        fun invokeNewSpecial(owner: InternalName, name: String, descriptor: Descriptor): Handle
+        fun invokeNewSpecial(owner: Type, name: String, descriptor: Descriptor): Handle
                 = Handle(Kind.NewInvokeSpecial, owner, name, descriptor, false)
 
-        fun invokeStatic(owner: InternalName, name: String, descriptor: Descriptor, isInterface: Boolean): Handle
+        fun invokeStatic(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean): Handle
                 = Handle(Kind.InvokeStatic, owner, name, descriptor, isInterface)
-        fun invokeSpecial(owner: InternalName, name: String, descriptor: Descriptor, isInterface: Boolean): Handle
+        fun invokeSpecial(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean): Handle
                 = Handle(Kind.InvokeSpecial, owner, name, descriptor, isInterface)
 
-        fun invokeInterface(owner: InternalName, name: String, descriptor: Descriptor): Handle
+        fun invokeInterface(owner: Type, name: String, descriptor: Descriptor): Handle
                 = Handle(Kind.InvokeInterface, owner, name, descriptor, true)
     }
 

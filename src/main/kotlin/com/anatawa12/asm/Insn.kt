@@ -13,9 +13,9 @@ sealed class Insn (val op: UByte)
 sealed class IntInsn (val operand: UShort, op: UByte) : Insn(op)
 sealed class VarInsn (val variable: UShort, op: UByte) : Insn(op)
 sealed class JumpInsn (val label: Label, op: UByte) : Insn(op)
-sealed class FieldInsn (val owner: InternalName, val name: String, val descriptor: Descriptor, op: UByte) : Insn(op)
-sealed class MethodInsn (val owner: InternalName, val name: String, val descriptor: Descriptor, val isInterface: Boolean, op: UByte) : Insn(op)
-sealed class TypeInsn (val type: InternalName, op: UByte) : Insn(op)
+sealed class FieldInsn (val owner: Type, val name: String, val descriptor: Type, op: UByte) : Insn(op)
+sealed class MethodInsn (val owner: Type, val name: String, val descriptor: Descriptor, val isInterface: Boolean, op: UByte) : Insn(op)
+sealed class TypeInsn (val type: Type, op: UByte) : Insn(op)
 
 object NopInsn : Insn(0u) // visitInsn
 object AconstNullInsn : Insn(1u) // visitInsn
@@ -153,25 +153,25 @@ object FreturnInsn : Insn(174u) // visitInsn
 object DreturnInsn : Insn(175u) // visitInsn
 object AreturnInsn : Insn(176u) // visitInsn
 object ReturnInsn : Insn(177u) // visitInsn
-class GetstaticInsn(owner: InternalName, name: String, descriptor: Descriptor) : FieldInsn(owner, name, descriptor, 178u) // visitFieldInsn
-class PutstaticInsn(owner: InternalName, name: String, descriptor: Descriptor) : FieldInsn(owner, name, descriptor, 179u) // visitFieldInsn
-class GetfieldInsn(owner: InternalName, name: String, descriptor: Descriptor) : FieldInsn(owner, name, descriptor, 180u) // visitFieldInsn
-class PutfieldInsn(owner: InternalName, name: String, descriptor: Descriptor) : FieldInsn(owner, name, descriptor, 181u) // visitFieldInsn
-class InvokevirtualInsn(owner: InternalName, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 182u) // visitMethodInsn
-class InvokespecialInsn(owner: InternalName, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 183u) // visitMethodInsn
-class InvokestaticInsn(owner: InternalName, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 184u) // visitMethodInsn
-class InvokeinterfaceInsn(owner: InternalName, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 185u) // visitMethodInsn
+class GetstaticInsn(owner: Type, name: String, descriptor: Type) : FieldInsn(owner, name, descriptor, 178u) // visitFieldInsn
+class PutstaticInsn(owner: Type, name: String, descriptor: Type) : FieldInsn(owner, name, descriptor, 179u) // visitFieldInsn
+class GetfieldInsn(owner: Type, name: String, descriptor: Type) : FieldInsn(owner, name, descriptor, 180u) // visitFieldInsn
+class PutfieldInsn(owner: Type, name: String, descriptor: Type) : FieldInsn(owner, name, descriptor, 181u) // visitFieldInsn
+class InvokevirtualInsn(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 182u) // visitMethodInsn
+class InvokespecialInsn(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 183u) // visitMethodInsn
+class InvokestaticInsn(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 184u) // visitMethodInsn
+class InvokeinterfaceInsn(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean) : MethodInsn(owner, name, descriptor, isInterface, 185u) // visitMethodInsn
 class InvokedynamicInsn(val name: Name, val descriptor: Descriptor, val handle: Handle, vararg val arguments: Any?) : Insn(186u) // visitInvokeDynamicInsn
-class NewInsn(type: InternalName) : TypeInsn(type, 187u) // visitTypeInsn
+class NewInsn(type: Type) : TypeInsn(type, 187u) // visitTypeInsn
 class NewarrayInsn(type: PrimitiveType) : IntInsn(type.value.toUShort(), 188u) // visitIntInsn
-class AnewarrayInsn(type: InternalName) : TypeInsn(type, 189u) // visitTypeInsn
+class AnewarrayInsn(type: Type) : TypeInsn(type, 189u) // visitTypeInsn
 object ArraylengthInsn : Insn(190u) // visitInsn
 object AthrowInsn : Insn(191u) // visitInsn
-class CheckcastInsn(type: InternalName) : TypeInsn(type, 192u) // visitTypeInsn
-class InstanceofInsn(type: InternalName) : TypeInsn(type, 193u) // visitTypeInsn
+class CheckcastInsn(type: Type) : TypeInsn(type, 192u) // visitTypeInsn
+class InstanceofInsn(type: Type) : TypeInsn(type, 193u) // visitTypeInsn
 object MonitorenterInsn : Insn(194u) // visitInsn
 object MonitorexitInsn : Insn(195u) // visitInsn
-class MultianewarrayInsn(val descriptor: Descriptor, val dimensions: Int) : Insn(197u) // visitMultiANewArrayInsn
+class MultianewarrayInsn(val descriptor: Type, val dimensions: Int) : Insn(197u) // visitMultiANewArrayInsn
 class IfnullInsn(label: Label) : JumpInsn(label, 198u) // visitJumpInsn
 class IfnonnullInsn(label: Label) : JumpInsn(label, 199u) // visitJumpInsn
 

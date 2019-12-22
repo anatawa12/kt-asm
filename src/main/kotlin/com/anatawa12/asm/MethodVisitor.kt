@@ -34,7 +34,7 @@ interface MethodVisitor {
      * @param visible true if the annotation is visible at runtime.
      * @return a visitor to visit the annotation.
      */
-    fun visitAnnotation(descriptor: String?, visible: Boolean): AnnotationVisitor?
+    fun visitAnnotation(descriptor: Type, visible: Boolean): AnnotationVisitor?
 
     /**
      * Visits an annotation on a type in the method signature.
@@ -46,7 +46,7 @@ interface MethodVisitor {
     fun visitTypeAnnotation(
         typeRef: TypeAnnotationTarget,
         typePath: TypePath,
-        descriptor: Descriptor,
+        descriptor: Type,
         visible: Boolean
     ): AnnotationVisitor?
 
@@ -69,7 +69,7 @@ interface MethodVisitor {
      * @return a visitor to visit the annotation values
      */
     fun visitParameterAnnotation(
-        parameter: Int, descriptor: String?, visible: Boolean
+        parameter: Int, descriptor: Type?, visible: Boolean
     ): AnnotationVisitor?
 
     /**

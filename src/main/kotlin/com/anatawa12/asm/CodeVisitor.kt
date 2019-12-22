@@ -35,7 +35,7 @@ interface CodeVisitor {
     fun visitInsnAnnotation(
         typeRef: CodeTarget,
         typePath: TypePath,
-        descriptor: Descriptor,
+        descriptor: Type,
         visible: Boolean
     ): AnnotationVisitor
 
@@ -52,7 +52,7 @@ interface CodeVisitor {
         start: Label,
         end: Label,
         handler: Label,
-        type: InternalName?
+        type: Type?
     )
 
     /**
@@ -65,7 +65,7 @@ interface CodeVisitor {
     fun visitTryCatchAnnotation(
         typeRef: CodeTarget,
         typePath: TypePath,
-        descriptor: Descriptor,
+        descriptor: Type,
         visible: Boolean
     ): AnnotationVisitor
 
@@ -80,7 +80,7 @@ interface CodeVisitor {
      */
     fun visitLocalVariable(
         name: String,
-        descriptor: Descriptor,
+        descriptor: Type,
         signature: Signature?,
         start: Label,
         end: Label,
@@ -97,7 +97,7 @@ interface CodeVisitor {
     fun visitLocalVariableAnnotation(
         typeRef: CodeTarget,
         typePath: TypePath,
-        descriptor: Descriptor,
+        descriptor: Type,
         visible: Boolean
     ): AnnotationVisitor
 

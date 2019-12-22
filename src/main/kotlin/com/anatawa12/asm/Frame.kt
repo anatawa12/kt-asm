@@ -82,7 +82,7 @@ sealed class VariableType() {
     object Null : VariableType()
     object UninitializedThis : VariableType()
 
-    class Object(val name: InternalName) : VariableType()
+    class Object(val name: Type) : VariableType()
 
     /**
      * uninitialized value created at [at].

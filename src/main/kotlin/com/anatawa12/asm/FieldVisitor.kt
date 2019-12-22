@@ -18,7 +18,7 @@ interface FieldVisitor {
      * @param visible true if the annotation is visible at runtime.
      * @return a visitor to visit the annotation.
      */
-    fun visitAnnotation(descriptor: Descriptor, visible: Boolean): AnnotationVisitor?
+    fun visitAnnotation(descriptor: Type, visible: Boolean): AnnotationVisitor?
 
     /**
      * Visits an annotation on the type of the field.
@@ -30,7 +30,7 @@ interface FieldVisitor {
     fun visitTypeAnnotation(
         typeRef: TypeAnnotationTarget,
         typePath: TypePath,
-        descriptor: Descriptor,
+        descriptor: Type,
         visible: Boolean
     ): AnnotationVisitor?
 
