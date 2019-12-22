@@ -59,7 +59,7 @@ internal class DescriptorVerifier(private val string: String) {
     private class Invalid : Exception()
 
     companion object {
-        private const val unusableChars = ".;[<>"
-        private const val PRIMITIVE_DESCRIPTORS = "VZCBSIFJD"
+        const val unusableChars = ".;[<>"
+        const val PRIMITIVE_DESCRIPTORS = "VZCBSIFJD"
     }
 }

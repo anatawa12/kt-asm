@@ -16,13 +16,13 @@ class MethodType(val descriptor: String) {
             var index = 1
             while (true) {
                 when (descriptor[index]) {
-                    in descriptor -> {
-                        yield(Type(descriptor.substring(index, index)))
+                    in DescriptorVerifier.PRIMITIVE_DESCRIPTORS -> {
+                        yield(Type(descriptor.substring(index, index + 1)))
                     }
                     'L' -> {
                         val start = index
                         index = descriptor.indexOf(';', index)
-                        yield(Type(descriptor.substring(start, index)))
+                        yield(Type(descriptor.substring(start, index + 1)))
                     }
                     ')' -> return@sequence
                     else -> throw AssertionError()
