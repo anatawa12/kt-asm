@@ -7,26 +7,32 @@ import org.junit.Test
  * Created by anatawa12 on 2019/12/22.
  */
 class MethodTypeTest {
+    private val getReturnTypeTests = listOf<Pair<Type, MethodType>>(
+        Type("V") to MethodType("()V"),
+        Type("V") to MethodType("(Ljava/lang/String;)V"),
+        Type("Ljava/lang/String;") to MethodType("()Ljava/lang/String;"),
+        Type("Ljava/lang/String;") to MethodType("(Ljava/lang/String;)Ljava/lang/String;")
+    )
+
     @Test
     fun getReturnType() {
-        assertEquals(Type("V"), MethodType("()V").returnType)
-        assertEquals(Type("V"), MethodType("(Ljava/lang/String;)V").returnType)
-        assertEquals(Type("Ljava/lang/String;"), MethodType("()Ljava/lang/String;").returnType)
-        assertEquals(Type("Ljava/lang/String;"), MethodType("(Ljava/lang/String;)Ljava/lang/String;").returnType)
+        for ((type, methodType) in getReturnTypeTests) {
+            assertEquals(type, methodType.returnType)
+        }
     }
+
+    private val getArgumentTypesTests = listOf<Pair<List<Type>, MethodType>>(
+        listOf<Type>() to MethodType("()V"),
+        listOf<Type>(Type("Ljava/lang/String;")) to MethodType("(Ljava/lang/String;)V"),
+        listOf<Type>() to MethodType("()Ljava/lang/String;"),
+        listOf<Type>(Type("Ljava/lang/String;")) to MethodType("(Ljava/lang/String;)Ljava/lang/String;"),
+        listOf<Type>(Type("I")) to MethodType("(I)Ljava/lang/String;")
+    )
 
     @Test
     fun getArgumentTypes() {
-        assertEquals(listOf<Type>(), MethodType("()V").argumentTypes.toList())
-        assertEquals(
-            listOf<Type>(Type("Ljava/lang/String;")),
-            MethodType("(Ljava/lang/String;)V").argumentTypes.toList()
-        )
-        assertEquals(listOf<Type>(), MethodType("()Ljava/lang/String;").argumentTypes.toList())
-        assertEquals(
-            listOf<Type>(Type("Ljava/lang/String;")),
-            MethodType("(Ljava/lang/String;)Ljava/lang/String;").argumentTypes.toList()
-        )
-        assertEquals(listOf<Type>(Type("I")), MethodType("(I)Ljava/lang/String;").argumentTypes.toList())
+        for ((arguments, methodType) in getArgumentTypesTests) {
+            assertEquals(arguments, methodType.argumentTypes.toList())
+        }
     }
 }
