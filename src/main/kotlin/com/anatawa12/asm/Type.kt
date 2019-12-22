@@ -1,12 +1,19 @@
 package com.anatawa12.asm
 
+import com.anatawa12.asm.internal.DescriptorVerifier
+
 class Type(val descriptor: Descriptor) {
+    init {
+        require(DescriptorVerifier(descriptor.descriptor).verifyType()) { "invalid descriptor: $descriptor" }
+    }
+
     val kind: Kind
         get() = when (descriptor.descriptor[0]) {
             '[' -> Kind.Array
             'L' -> Kind.Class
             else -> Kind.Primitive
         }
+
     val internalName: InternalName
         get() = when (kind) {
             Kind.Class -> InternalName(descriptor.descriptor.run { substring(1, length - 1) })
@@ -24,7 +31,7 @@ class Type(val descriptor: Descriptor) {
             for (dimension in descriptor.descriptor.indices) {
                 if (descriptor.descriptor[dimension] != '[') return dimension
             }
-            return descriptor.descriptor.lastIndex
+            throw AssertionError()
         }
 
     val bottomElementType: Type
@@ -57,4 +64,6 @@ class Type(val descriptor: Descriptor) {
     override fun hashCode(): Int {
         return descriptor.hashCode()
     }
+
+    override fun toString(): String = descriptor.descriptor
 }
