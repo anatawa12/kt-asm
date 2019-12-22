@@ -62,6 +62,6 @@ internal class DescriptorVerifier(val string: String) {
 
     companion object {
         private const val unusableChars = ".;[<>"
-        private const val PRIMITIVE_DESCRIPTORS = "ZCBSIFJD"
+        private const val PRIMITIVE_DESCRIPTORS = "VZCBSIFJD"
     }
 }
