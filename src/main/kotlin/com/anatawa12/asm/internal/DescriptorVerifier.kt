@@ -1,9 +1,7 @@
 package com.anatawa12.asm.internal
 
-import java.lang.Exception
-
-internal class DescriptorVerifier(val string: String) {
-    var index = 0
+internal class DescriptorVerifier(private val string: String) {
+    private var index = 0
 
     fun read() = string[index++]
     fun peek() = string[index]
@@ -48,8 +46,8 @@ internal class DescriptorVerifier(val string: String) {
             'L' -> {
                 while (true) {
                     when (read()) {
-                        in unusableChars -> throw Invalid()
                         ';' -> return
+                        in unusableChars -> throw Invalid()
                     }
                 }
             }
