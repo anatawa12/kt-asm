@@ -17,6 +17,7 @@ dependencies {
 
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.ow2.asm:asm:$asmVersion")
+    @Suppress("DEPRECATION")
     testCompile("junit", "junit", "4.12")
 }
 
@@ -27,7 +28,7 @@ tasks {
     compileKotlin {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-Xinline-classes", "-Xuse-experimental=kotlin.Experimental")
+            freeCompilerArgs = listOf("-Xinline-classes", "-Xuse-experimental=kotlin.Experimental,kotlin.ExperimentalUnsignedTypes")
         }
     }
     compileTestKotlin {
