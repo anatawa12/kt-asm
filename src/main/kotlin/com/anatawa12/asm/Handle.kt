@@ -25,18 +25,18 @@ class Handle private constructor(
         fun putStatic(owner: Type, name: String, descriptor: Type): Handle
                 = Handle(Kind.PutStatic, owner, name, descriptor.descriptor, false)
 
-        fun invokeVirtual(owner: Type, name: String, descriptor: Descriptor): Handle
-                = Handle(Kind.InvokeVirtual, owner, name, descriptor, false)
-        fun invokeNewSpecial(owner: Type, name: String, descriptor: Descriptor): Handle
-                = Handle(Kind.NewInvokeSpecial, owner, name, descriptor, false)
+        fun invokeVirtual(owner: Type, name: String, descriptor: MethodType): Handle
+                = Handle(Kind.InvokeVirtual, owner, name, descriptor.descriptor, false)
+        fun invokeNewSpecial(owner: Type, name: String, descriptor: MethodType): Handle
+                = Handle(Kind.NewInvokeSpecial, owner, name, descriptor.descriptor, false)
 
-        fun invokeStatic(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean): Handle
-                = Handle(Kind.InvokeStatic, owner, name, descriptor, isInterface)
-        fun invokeSpecial(owner: Type, name: String, descriptor: Descriptor, isInterface: Boolean): Handle
-                = Handle(Kind.InvokeSpecial, owner, name, descriptor, isInterface)
+        fun invokeStatic(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle
+                = Handle(Kind.InvokeStatic, owner, name, descriptor, .descriptorisInterface)
+        fun invokeSpecial(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle
+                = Handle(Kind.InvokeSpecial, owner, name, descriptor, .descriptorisInterface)
 
-        fun invokeInterface(owner: Type, name: String, descriptor: Descriptor): Handle
-                = Handle(Kind.InvokeInterface, owner, name, descriptor, true)
+        fun invokeInterface(owner: Type, name: String, descriptor: MethodType): Handle
+                = Handle(Kind.InvokeInterface, owner, name, descriptor.descriptor, true)
     }
 
     enum class Kind constructor(internal val id: UByte) {

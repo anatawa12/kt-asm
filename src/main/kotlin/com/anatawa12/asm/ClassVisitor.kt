@@ -46,7 +46,7 @@ interface ClassVisitor {
      * @param name name of the method
      * @param descriptor descriptor of the method
      */
-    fun visitOuterClass(owner: Type, name: String?, descriptor: Descriptor?)
+    fun visitOuterClass(owner: Type, name: String?, descriptor: MethodType?)
 
     /**
      * Visits an annotation on a type in the class signature.
@@ -125,7 +125,7 @@ interface ClassVisitor {
     fun visitMethod(
         access: MethodAccessFlags,
         name: String,
-        descriptor: Descriptor,
+        descriptor: MethodType,
         signature: Signature?,
         exceptions: List<Type>
     ): MethodVisitor
