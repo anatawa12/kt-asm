@@ -14,7 +14,7 @@ import org.objectweb.asm.TypePath as TypePathOW2
 /**
  * Created by anatawa12 on 2019/12/23.
  */
-class MethodPipeFromOW2(
+internal class MethodPipeFromOW2(
     val methodVisitor: MethodVisitor
 ) : FieldVisitorOW2(Opcodes.ASM7) {
     override fun visitParameter(name: String, access: Int) {

@@ -9,7 +9,7 @@ import org.objectweb.asm.ModuleVisitor as ModuleVisitorOW2
 /**
  * Created by anatawa12 on 2019/12/23.
  */
-class ModulePipeFromOW2(
+internal class ModulePipeFromOW2(
     val moduleVisitor: ModuleVisitor
 ) : ModuleVisitorOW2(Opcodes.ASM7) {
     override fun visitMainClass(mainClass: String) {

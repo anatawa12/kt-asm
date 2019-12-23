@@ -13,7 +13,7 @@ import org.objectweb.asm.FieldVisitor as FieldVisitorOW2
 /**
  * Created by anatawa12 on 2019/12/23.
  */
-class FieldPipeFromOW2(
+internal class FieldPipeFromOW2(
     val fieldVisitor: FieldVisitor
 ) : FieldVisitorOW2(Opcodes.ASM7) {
     override fun visitAnnotation(descriptor: String, visible: Boolean): AnnotationVisitorOW2? {

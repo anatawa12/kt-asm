@@ -8,7 +8,7 @@ import org.objectweb.asm.AnnotationVisitor as AnnotationVisitorOW2
 /**
  * Created by anatawa12 on 2019/12/23.
  */
-class AnnotationPipeFromOW2(
+internal class AnnotationPipeFromOW2(
     val annotationVisitor: AnnotationVisitor
 ) : AnnotationVisitorOW2(Opcodes.ASM7) {
     override fun visit(name: String?, value: Any) {
