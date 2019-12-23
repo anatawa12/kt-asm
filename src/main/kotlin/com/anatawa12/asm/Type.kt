@@ -66,4 +66,19 @@ class Type(val descriptor: String) {
     }
 
     override fun toString(): String = descriptor
+
+    companion object {
+        val Void = Type("V")
+        val Boolean = Type("Z")
+        val Char = Type("C")
+        val Byte = Type("B")
+        val Short = Type("S")
+        val Int = Type("I")
+        val Float = Type("F")
+        val Long = Type("J")
+        val Double = Type("D")
+
+        fun objectFromInternalName(internalName: String) = Type("L$internalName;")
+        fun Type.array() = Type("[$descriptor")
+    }
 }
