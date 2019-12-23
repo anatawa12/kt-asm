@@ -2,30 +2,61 @@
 
 package com.anatawa12.asm
 
+import org.objectweb.asm.TypeReference
+
 /**
  * Created by anatawa12 on 2019/12/21.
  */
 /**
  * Type annotation target. see [jvm specification 4.7.20](https://docs.oracle.com/javase/specs/jvms/se13/html/jvms-4.html#jvms-4.7.20)
  */
-sealed class TypeAnnotationTarget(val tag: UByte)
+sealed class TypeAnnotationTarget(val tag: UByte) {
+    internal abstract val ow2: Int
+}
+
 sealed class CodeTarget(tag: UByte) : TypeAnnotationTarget(tag)
 
-sealed class TypeParameterTarget(val index: UByte, tag: UByte) : TypeAnnotationTarget(tag)
-sealed class SuperTypeTarget(val index: UShort, tag: UByte) : TypeAnnotationTarget(tag)
+sealed class TypeParameterTarget(val index: UByte, tag: UByte) : TypeAnnotationTarget(tag) {
+    override val ow2: Int get() = TypeReference.newTypeParameterReference(tag.toInt(), index.toInt()).value
+}
+
+sealed class SuperTypeTarget(val index: UShort, tag: UByte) : TypeAnnotationTarget(tag) {
+    override val ow2: Int get() = TypeReference.newSuperTypeReference(index.toInt()).value
+}
+
 sealed class TypeParameterBoundTarget(val typeParameterIndex: UByte, val boundIndex: UByte, tag: UByte) :
-    TypeAnnotationTarget(tag)
+    TypeAnnotationTarget(tag) {
+    override val ow2: Int
+        get() = TypeReference.newTypeParameterBoundReference(
+            tag.toInt(),
+            typeParameterIndex.toInt(),
+            boundIndex.toInt()
+        ).value
+}
 
-sealed class EmptyTarget(tag: UByte) : TypeAnnotationTarget(tag)
-sealed class FormalParameterTarget(val index: UByte, tag: UByte) : TypeAnnotationTarget(tag)
-sealed class ThrowsTarget(val index: UShort, tag: UByte) : TypeAnnotationTarget(tag)
-sealed class LocalVarTarget(val table: List<LocalVarTargetTableElement>, tag: UByte) : TypeAnnotationTarget(tag)
-sealed class CatchTarget(val index: UShort, tag: UByte) : TypeAnnotationTarget(tag)
-sealed class OffsetTarget(tag: UByte) : CodeTarget(tag)
-sealed class TypeArgumentTarget(val typeArgumentIndex: UByte, tag: UByte) :
-    CodeTarget(tag)
+sealed class EmptyTarget(tag: UByte) : TypeAnnotationTarget(tag) {
+    override val ow2: Int get() = TypeReference.newTypeReference(tag.toInt()).value
+}
 
-class LocalVarTargetTableElement(val start: UShort, val length: UShort, val index: UShort)
+sealed class FormalParameterTarget(val index: UByte, tag: UByte) : TypeAnnotationTarget(tag) {
+    override val ow2: Int get() = TypeReference.newFormalParameterReference(index.toInt()).value
+}
+
+sealed class ThrowsTarget(val index: UShort, tag: UByte) : TypeAnnotationTarget(tag) {
+    override val ow2: Int get() = TypeReference.newExceptionReference(index.toInt()).value
+}
+
+sealed class CatchTarget(val index: UShort, tag: UByte) : TypeAnnotationTarget(tag) {
+    override val ow2: Int get() = TypeReference.newTryCatchReference(index.toInt()).value
+}
+
+sealed class OffsetTarget(tag: UByte) : CodeTarget(tag) {
+    override val ow2: Int get() = TypeReference.newTypeReference(tag.toInt()).value
+}
+
+sealed class TypeArgumentTarget(val typeArgumentIndex: UByte, tag: UByte) : CodeTarget(tag) {
+    override val ow2: Int get() = TypeReference.newTypeArgumentReference(tag.toInt(), typeArgumentIndex.toInt()).value
+}
 
 /*
 OffsetTarget
@@ -85,16 +116,6 @@ class MethodFormalParameterTarget(index: UByte) : FormalParameterTarget(index, 0
  * type in throws clause of method or constructor
  */
 class MethodThrowsTarget(index: UShort) : ThrowsTarget(index, 0x17u)
-
-/**
- * type in local variable declaration
- */
-class MethodLocalVarTarget(table: List<LocalVarTargetTableElement>) : LocalVarTarget(table, 0x40u)
-
-/**
- * type in resource variable declaration
- */
-class ResourceLocalVarTarget(table: List<LocalVarTargetTableElement>) : LocalVarTarget(table, 0x41u)
 
 /**
  * type in exception parameter declaration
