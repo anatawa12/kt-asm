@@ -38,7 +38,7 @@ interface AnnotationVisitor {
      * @param name the value name or empty if this visitor is visiting array.
      * @return a visitor to visit array value.
      */
-    fun visitArray(name: String): AnnotationVisitor
+    fun visitArray(name: String): AnnotationVisitor?
 
     /**
      * Visits the end of the annotation or array.
