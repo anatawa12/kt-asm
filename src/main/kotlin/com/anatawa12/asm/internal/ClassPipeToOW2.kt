@@ -6,7 +6,7 @@ import org.objectweb.asm.ClassVisitor as ClassVisitorOW2
 /**
  * Created by anatawa12 on 2019/12/23.
  */
-internal class ClassPipeToOW2(
+internal open class ClassPipeToOW2(
     val ow2: ClassVisitorOW2
 ) : ClassVisitor {
     override fun visit(
