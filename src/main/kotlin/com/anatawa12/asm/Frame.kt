@@ -70,22 +70,23 @@ class FullFrame(val locals: List<VariableType>, val stack: List<VariableType>)
 /**
  * The type of local variable or stack element. Long and Double are represented by a single element.
  */
-sealed class VariableType() {
+sealed class VariableType(internal val ow2: Any) {
     /**
      * the top type of all Variable
      */
-    object Top : VariableType()
-    object Integer : VariableType()
-    object Float : VariableType()
-    object Double : VariableType()
-    object Long : VariableType()
-    object Null : VariableType()
-    object UninitializedThis : VariableType()
+    object Top : VariableType(Opcodes.TOP)
 
-    class Object(val name: Type) : VariableType()
+    object Integer : VariableType(Opcodes.INTEGER)
+    object Float : VariableType(Opcodes.FLOAT)
+    object Double : VariableType(Opcodes.DOUBLE)
+    object Long : VariableType(Opcodes.LONG)
+    object Null : VariableType(Opcodes.NULL)
+    object UninitializedThis : VariableType(Opcodes.UNINITIALIZED_THIS)
+
+    class Object(val name: Type) : VariableType(name.internalName.name)
 
     /**
      * uninitialized value created at [at].
      */
-    class Uninitialized(val at: Label) : VariableType()
+    class Uninitialized(val at: Label) : VariableType(at.ow2)
 }
