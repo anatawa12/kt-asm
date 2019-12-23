@@ -16,7 +16,7 @@ class Handle private constructor(
     val descriptor: String,
     val isInterface: Boolean
 ) {
-    val ow2: HandleOW2 = HandleOW2(kind.id.toInt(), owner.internalName.name, name1, descriptor, isInterface)
+    val ow2: HandleOW2 get() = HandleOW2(kind.id.toInt(), owner.internalName, name1, descriptor, isInterface)
 
     companion object {
         fun getField(owner: Type, name: String, descriptor: Type): Handle =

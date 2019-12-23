@@ -40,7 +40,7 @@ inline class Signature(val sig: String)
 /**
  * the internal name. like 'java/lang/String'
  */
-inline class InternalName(val name: String)
+typealias InternalName = String
 
 /**
  * the access flags for class file.

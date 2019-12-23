@@ -17,9 +17,9 @@ class TypeTest {
 
     @Test
     fun getInternalName() {
-        assertEquals(InternalName("java/lang/String"), Type("Ljava/lang/String;").internalName)
-        assertEquals(InternalName("[Ljava/lang/String;"), Type("[Ljava/lang/String;").internalName)
-        assertEquals(InternalName("I"), Type("I").internalName)
+        assertEquals("java/lang/String", Type("Ljava/lang/String;").internalName)
+        assertEquals("[Ljava/lang/String;", Type("[Ljava/lang/String;").internalName)
+        assertEquals("I", Type("I").internalName)
     }
 
     @Test

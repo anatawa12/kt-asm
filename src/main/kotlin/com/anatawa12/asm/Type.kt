@@ -16,8 +16,8 @@ class Type(val descriptor: String) {
 
     val internalName: InternalName
         get() = when (kind) {
-            Kind.Class -> InternalName(descriptor.run { substring(1, length - 1) })
-            else -> InternalName(descriptor)
+            Kind.Class -> descriptor.run { substring(1, length - 1) }
+            else -> descriptor
         }
 
     val elementType: Type

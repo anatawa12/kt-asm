@@ -83,7 +83,7 @@ sealed class VariableType(internal val ow2: Any) {
     object Null : VariableType(Opcodes.NULL)
     object UninitializedThis : VariableType(Opcodes.UNINITIALIZED_THIS)
 
-    class Object(val name: Type) : VariableType(name.internalName.name)
+    class Object(val name: Type) : VariableType(name.internalName)
 
     /**
      * uninitialized value created at [at].
