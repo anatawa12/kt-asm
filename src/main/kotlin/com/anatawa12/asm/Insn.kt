@@ -1,8 +1,6 @@
 @file:Suppress("EXPERIMENTAL_UNSIGNED_LITERALS")
 package com.anatawa12.asm
 
-import javax.naming.Name
-
 /**
  * Created by anatawa12 on 2019/12/22.
  */
@@ -188,7 +186,7 @@ class InvokestaticInsn(owner: Type, name: String, descriptor: MethodType, isInte
 class InvokeinterfaceInsn(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean) :
     MethodInsn(owner, name, descriptor, isInterface, 185u) // visitMethodInsn
 
-class InvokedynamicInsn(val name: Name, val descriptor: MethodType, val handle: Handle, vararg val arguments: Any?) :
+class InvokedynamicInsn(val name: String, val descriptor: MethodType, val handle: Handle, vararg val arguments: Any?) :
     Insn(186u) // visitInvokeDynamicInsn
 
 class NewInsn(type: Type) : TypeInsn(type, 187u) // visitTypeInsn

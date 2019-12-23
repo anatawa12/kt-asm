@@ -37,7 +37,7 @@ interface CodeVisitor {
         typePath: TypePath,
         descriptor: Type,
         visible: Boolean
-    ): AnnotationVisitor
+    ): AnnotationVisitor?
 
     /**
      * visits a try catch block
@@ -67,7 +67,7 @@ interface CodeVisitor {
         typePath: TypePath,
         descriptor: Type,
         visible: Boolean
-    ): AnnotationVisitor
+    ): AnnotationVisitor?
 
     /**
      * visits a local variable.
@@ -97,9 +97,10 @@ interface CodeVisitor {
     fun visitLocalVariableAnnotation(
         typeRef: CodeTarget,
         typePath: TypePath,
+        ragnes: List<Pair<Pair<Label, Label>, Int>>,
         descriptor: Type,
         visible: Boolean
-    ): AnnotationVisitor
+    ): AnnotationVisitor?
 
     /**
      * visits a line number declaration.
