@@ -78,7 +78,9 @@ class Type(val descriptor: String) {
         val Long = Type("J")
         val Double = Type("D")
 
-        fun objectFromInternalName(internalName: String) = Type("L$internalName;")
+        fun fromInternalName(internalName: String) =
+            if (internalName[0] == '[') Type(internalName) else Type("L$internalName;")
+
         fun Type.array() = Type("[$descriptor")
     }
 }

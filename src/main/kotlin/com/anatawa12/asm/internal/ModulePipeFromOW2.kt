@@ -13,7 +13,7 @@ class ModulePipeFromOW2(
     val moduleVisitor: ModuleVisitor
 ) : ModuleVisitorOW2(Opcodes.ASM7) {
     override fun visitMainClass(mainClass: String) {
-        moduleVisitor.visitMainClass(Type.objectFromInternalName(mainClass))
+        moduleVisitor.visitMainClass(Type.fromInternalName(mainClass))
     }
 
     override fun visitPackage(packageName: InternalName) {
@@ -33,13 +33,13 @@ class ModulePipeFromOW2(
     }
 
     override fun visitUse(service: String) {
-        moduleVisitor.visitUse(Type.objectFromInternalName(service))
+        moduleVisitor.visitUse(Type.fromInternalName(service))
     }
 
     override fun visitProvide(service: String, vararg providers: String) {
         moduleVisitor.visitProvide(
-            Type.objectFromInternalName(service),
-            *providers.mapArray { Type.objectFromInternalName(it) })
+            Type.fromInternalName(service),
+            *providers.mapArray { Type.fromInternalName(it) })
     }
 
     override fun visitEnd() {

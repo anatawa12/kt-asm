@@ -211,4 +211,20 @@ enum class PrimitiveType(val value: UByte) {
     Short(9u),
     Int(10u),
     Long(11u),
+
+    ;
+
+    companion object {
+        fun getByValue(value: kotlin.Int): PrimitiveType = when (value) {
+            4 -> Boolean
+            5 -> Char
+            6 -> Float
+            7 -> Double
+            8 -> Byte
+            9 -> Short
+            10 -> Int
+            11 -> Long
+            else -> throw IllegalArgumentException()
+        }
+    }
 }

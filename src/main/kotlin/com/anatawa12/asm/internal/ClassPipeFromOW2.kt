@@ -27,10 +27,10 @@ internal class ClassPipeFromOW2(private val classVisitor: ClassVisitor) : ClassV
         classVisitor.visit(
             ClassVersion(version.toUInt()),
             ClassAccessFlags(access.toUShort()),
-            Type.objectFromInternalName(name),
+            Type.fromInternalName(name),
             signature?.let(::Signature),
-            superName?.let(Type.Companion::objectFromInternalName),
-            interfaces.map(Type.Companion::objectFromInternalName)
+            superName?.let(Type.Companion::fromInternalName),
+            interfaces.map(Type.Companion::fromInternalName)
         )
     }
 
@@ -39,11 +39,11 @@ internal class ClassPipeFromOW2(private val classVisitor: ClassVisitor) : ClassV
     }
 
     override fun visitNestHost(nestHost: String) {
-        classVisitor.visitNestHost(Type.objectFromInternalName(nestHost))
+        classVisitor.visitNestHost(Type.fromInternalName(nestHost))
     }
 
     override fun visitOuterClass(owner: String, name: String?, descriptor: String?) {
-        classVisitor.visitOuterClass(Type.objectFromInternalName(owner), name, descriptor?.let(::MethodType))
+        classVisitor.visitOuterClass(Type.fromInternalName(owner), name, descriptor?.let(::MethodType))
     }
 
     override fun visitAnnotation(descriptor: String, visible: Boolean): AnnotationVisitorOW2? {
@@ -69,13 +69,13 @@ internal class ClassPipeFromOW2(private val classVisitor: ClassVisitor) : ClassV
     }
 
     override fun visitNestMember(nestMember: String) {
-        classVisitor.visitNestMember(Type.objectFromInternalName(nestMember))
+        classVisitor.visitNestMember(Type.fromInternalName(nestMember))
     }
 
     override fun visitInnerClass(name: String, outerName: String?, innerName: String?, access: Int) {
         classVisitor.visitInnerClass(
-            Type.objectFromInternalName(name),
-            outerName?.let(Type.Companion::objectFromInternalName),
+            Type.fromInternalName(name),
+            outerName?.let(Type.Companion::fromInternalName),
             innerName,
             InnerClassAccessFlags(access.toUShort())
         )

@@ -3,6 +3,7 @@
 package com.anatawa12.asm
 
 import org.objectweb.asm.Opcodes
+import org.objectweb.asm.Label as LabelOW2
 
 /**
  * Created by anatawa12 on 2019/12/22.
@@ -89,4 +90,18 @@ sealed class VariableType(internal val ow2: Any) {
      * uninitialized value created at [at].
      */
     class Uninitialized(val at: Label) : VariableType(at.ow2)
+
+    companion object {
+        fun fromOW2(ow2: Any) = when (ow2) {
+            Opcodes.INTEGER -> Integer
+            Opcodes.FLOAT -> Float
+            Opcodes.DOUBLE -> Double
+            Opcodes.LONG -> Long
+            Opcodes.NULL -> Null
+            Opcodes.UNINITIALIZED_THIS -> UninitializedThis
+            is String -> Object(Type.fromInternalName(ow2))
+            is LabelOW2 -> Uninitialized(Label(ow2))
+            else -> throw IllegalArgumentException()
+        }
+    }
 }

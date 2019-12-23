@@ -9,7 +9,7 @@ import org.objectweb.asm.Handle as HandleOW2
 /**
  * Handle method for invokedynamic.
  */
-class Handle private constructor(
+class Handle internal constructor(
     val kind: Kind,
     val owner: Type,
     val name1: String,
@@ -33,16 +33,26 @@ class Handle private constructor(
 
         fun invokeVirtual(owner: Type, name: String, descriptor: MethodType): Handle
                 = Handle(Kind.InvokeVirtual, owner, name, descriptor.descriptor, false)
-        fun invokeNewSpecial(owner: Type, name: String, descriptor: MethodType): Handle
-                = Handle(Kind.NewInvokeSpecial, owner, name, descriptor.descriptor, false)
 
-        fun invokeStatic(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle
-                = Handle(Kind.InvokeStatic, owner, name, descriptor.descriptor, isInterface)
-        fun invokeSpecial(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle
-                = Handle(Kind.InvokeSpecial, owner, name, descriptor.descriptor, isInterface)
+        fun invokeNewSpecial(owner: Type, name: String, descriptor: MethodType): Handle =
+            Handle(Kind.NewInvokeSpecial, owner, name, descriptor.descriptor, false)
 
-        fun invokeInterface(owner: Type, name: String, descriptor: MethodType): Handle
-                = Handle(Kind.InvokeInterface, owner, name, descriptor.descriptor, true)
+        fun invokeStatic(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle =
+            Handle(Kind.InvokeStatic, owner, name, descriptor.descriptor, isInterface)
+
+        fun invokeSpecial(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean): Handle =
+            Handle(Kind.InvokeSpecial, owner, name, descriptor.descriptor, isInterface)
+
+        fun invokeInterface(owner: Type, name: String, descriptor: MethodType): Handle =
+            Handle(Kind.InvokeInterface, owner, name, descriptor.descriptor, true)
+
+        fun fromOW2(handle: HandleOW2): Handle = Handle(
+            Kind.fromOW2(handle.tag),
+            Type.fromInternalName(handle.owner),
+            handle.name,
+            handle.desc,
+            handle.isInterface
+        )
     }
 
     enum class Kind constructor(internal val id: UByte) {
@@ -55,5 +65,22 @@ class Handle private constructor(
         InvokeStatic(Opcodes.H_INVOKESTATIC.toUByte()),
         InvokeSpecial(Opcodes.H_INVOKESPECIAL.toUByte()),
         InvokeInterface(Opcodes.H_INVOKEINTERFACE.toUByte()),
+
+        ;
+
+        companion object {
+            internal fun fromOW2(id: Int) = when (id) {
+                Opcodes.H_GETFIELD -> GetField
+                Opcodes.H_PUTFIELD -> PutField
+                Opcodes.H_GETSTATIC -> GetStatic
+                Opcodes.H_PUTSTATIC -> PutStatic
+                Opcodes.H_INVOKEVIRTUAL -> InvokeVirtual
+                Opcodes.H_NEWINVOKESPECIAL -> NewInvokeSpecial
+                Opcodes.H_INVOKESTATIC -> InvokeStatic
+                Opcodes.H_INVOKESPECIAL -> InvokeSpecial
+                Opcodes.H_INVOKEINTERFACE -> InvokeInterface
+                else -> throw IllegalArgumentException()
+            }
+        }
     }
 }
