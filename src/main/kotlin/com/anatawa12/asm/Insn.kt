@@ -42,7 +42,7 @@ object Dconst0Insn : SimpleInsn(14u) // visitInsn
 object Dconst1Insn : SimpleInsn(15u) // visitInsn
 class BipushInsn(value: Byte) : IntInsn(value.toUShort(), 16u) // visitIntInsn
 class SipushInsn(value: Short) : IntInsn(value.toUShort(), 17u) // visitIntInsn
-class LdcInsn(val value: Any?) : Insn(18u) // visitLdcInsn
+class LdcInsn(val value: Any) : Insn(18u) // visitLdcInsn
 class IloadInsn(variable: UShort) : VarInsn(variable, 21u) // visitVarInsn
 class LloadInsn(variable: UShort) : VarInsn(variable, 22u) // visitVarInsn
 class FloadInsn(variable: UShort) : VarInsn(variable, 23u) // visitVarInsn
@@ -186,7 +186,7 @@ class InvokestaticInsn(owner: Type, name: String, descriptor: MethodType, isInte
 class InvokeinterfaceInsn(owner: Type, name: String, descriptor: MethodType, isInterface: Boolean) :
     MethodInsn(owner, name, descriptor, isInterface, 185u) // visitMethodInsn
 
-class InvokedynamicInsn(val name: String, val descriptor: MethodType, val handle: Handle, vararg val arguments: Any?) :
+class InvokedynamicInsn(val name: String, val descriptor: MethodType, val handle: Handle, vararg val arguments: Any) :
     Insn(186u) // visitInvokeDynamicInsn
 
 class NewInsn(type: Type) : TypeInsn(type, 187u) // visitTypeInsn

@@ -19,6 +19,25 @@ internal class CodePipeToOW2(
         ow2.visitLabel(label.ow2)
     }
 
+    private fun anyReplacer(value: Any) = when (value) {
+        is Short, is Boolean, is Float, is Long, is Double,
+        is String, is Char, is Int, is Byte -> {
+            value
+        }
+        is Type -> {
+            org.objectweb.asm.Type.getType(value.descriptor)
+        }
+        is MethodType -> {
+            org.objectweb.asm.Type.getMethodType(value.descriptor)
+        }
+        is Handle -> {
+            value.ow2
+        }
+        else -> {
+            throw IllegalArgumentException("value $value")
+        }
+    }
+
     override fun visitInsn(insn: Insn) = insn.run {
         when (this) {
             is IntInsn -> ow2.visitIntInsn(op.toInt(), operand.toInt())
@@ -33,14 +52,18 @@ internal class CodePipeToOW2(
                 isInterface
             )
             is TypeInsn -> ow2.visitTypeInsn(op.toInt(), type.internalName)
-            is LdcInsn -> ow2.visitLdcInsn(value)
+            is LdcInsn -> ow2.visitLdcInsn(anyReplacer(value))
             is IincInsn -> ow2.visitIincInsn(varsible.toInt(), increment.toInt())
             is TableswitchInsn -> ow2.visitTableSwitchInsn(min, max, default.ow2, *labels.mapArray { it.ow2 })
             is LookupswitchInsn -> ow2.visitLookupSwitchInsn(
                 default.ow2,
                 pairs.mapArrayInt { it.first },
                 pairs.mapArray { it.second.ow2 })
-            is InvokedynamicInsn -> ow2.visitInvokeDynamicInsn(name, descriptor.descriptor, handle.ow2, *arguments)
+            is InvokedynamicInsn -> ow2.visitInvokeDynamicInsn(
+                name,
+                descriptor.descriptor,
+                handle.ow2,
+                *arguments.mapArray { anyReplacer(it) })
             is MultianewarrayInsn -> ow2.visitMultiANewArrayInsn(descriptor.descriptor, dimensions)
             is SimpleInsn -> ow2.visitInsn(op.toInt())
         }
