@@ -2,6 +2,8 @@
 
 package com.anatawa12.asm
 
+import org.objectweb.asm.TypePath as TypePathOW2
+
 /**
  * Created by anatawa12 on 2019/12/21.
  */
@@ -10,7 +12,20 @@ package com.anatawa12.asm
  */
 class TypePath(
     val elements: List<TypePathElement>
-)
+) {
+    internal val ow2: TypePathOW2 = TypePathOW2.fromString(elementsToString())
+
+    private fun elementsToString(): String = elements.joinToString("") { elem ->
+        when (elem.kind) {
+            TypePathKind.InArray -> "["
+            TypePathKind.InNested -> "."
+            TypePathKind.BoundOfWildcard -> "*"
+            TypePathKind.ParameterizedType -> "${elem.index};"
+        }
+    }
+
+    override fun toString(): String = elementsToString()
+}
 
 class TypePathElement private constructor(
     val kind: TypePathKind,
