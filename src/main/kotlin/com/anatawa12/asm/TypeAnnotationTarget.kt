@@ -12,6 +12,46 @@ import org.objectweb.asm.TypeReference
  */
 sealed class TypeAnnotationTarget(val tag: UByte) {
     internal abstract val ow2: Int
+
+    companion object {
+        internal fun fromASM(typeReference: TypeReference): TypeAnnotationTarget = typeReference.run {
+            when (sort) {
+                TypeReference.CLASS_TYPE_PARAMETER -> ClassTypeParameterTarget(typeParameterIndex.toUByte())
+                TypeReference.METHOD_TYPE_PARAMETER -> MethodTypeParameterTarget(typeParameterIndex.toUByte())
+                TypeReference.CLASS_EXTENDS -> ClassSuperTypeTarget(superTypeIndex.toUShort())
+                TypeReference.CLASS_TYPE_PARAMETER_BOUND -> ClassTypeParameterBoundTarget(
+                    typeParameterIndex.toUByte(),
+                    typeParameterBoundIndex.toUByte()
+                )
+                TypeReference.METHOD_TYPE_PARAMETER_BOUND -> MethodTypeParameterBoundTarget(
+                    typeParameterIndex.toUByte(),
+                    typeParameterBoundIndex.toUByte()
+                )
+                TypeReference.FIELD -> FieldEmptyTarget
+                TypeReference.METHOD_RETURN -> ReturnEmptyTarget
+                TypeReference.METHOD_RECEIVER -> ReceiverEmptyTarget
+                TypeReference.METHOD_FORMAL_PARAMETER -> MethodFormalParameterTarget(formalParameterIndex.toUByte())
+                TypeReference.THROWS -> MethodThrowsTarget(exceptionIndex.toUShort())
+                //TypeReference.LOCAL_VARIABLE -> {}
+                //TypeReference.RESOURCE_VARIABLE -> {}
+                TypeReference.EXCEPTION_PARAMETER -> MethodCatchTarget(tryCatchBlockIndex.toUShort())
+                TypeReference.INSTANCEOF -> InstanceOfOffsetTarget
+                TypeReference.NEW -> NewOffsetTarget
+                TypeReference.CONSTRUCTOR_REFERENCE -> ConstructorReferenceOffsetTarget
+                TypeReference.METHOD_REFERENCE -> MethodReferenceOffsetTarget
+                TypeReference.CAST -> CastTypeArgumentTarget(typeArgumentIndex.toUByte())
+                TypeReference.CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT -> GenericConstructorTypeArgumentTarget(
+                    typeArgumentIndex.toUByte()
+                )
+                TypeReference.METHOD_INVOCATION_TYPE_ARGUMENT -> MethodInvocationTypeArgumentTarget(typeArgumentIndex.toUByte())
+                TypeReference.CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT -> ConstructorReferenceTypeArgumentTarget(
+                    typeArgumentIndex.toUByte()
+                )
+                TypeReference.METHOD_REFERENCE_TYPE_ARGUMENT -> MethodReferenceTypeArgumentTarget(typeArgumentIndex.toUByte())
+                else -> throw IllegalArgumentException("unsupported sort: 0x${sort.toString(16).padStart(2, ' ')}")
+            }
+        }
+    }
 }
 
 sealed class CodeTarget(tag: UByte) : TypeAnnotationTarget(tag)

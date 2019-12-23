@@ -25,6 +25,22 @@ class TypePath(
     }
 
     override fun toString(): String = elementsToString()
+
+    companion object {
+        fun fromASM(typePath: TypePathOW2): TypePath = TypePath(
+            (0 until typePath.length)
+                .asSequence()
+                .map {
+                    when (typePath.getStep(it)) {
+                        TypePathOW2.ARRAY_ELEMENT -> TypePathElement.array()
+                        TypePathOW2.INNER_TYPE -> TypePathElement.nested()
+                        TypePathOW2.WILDCARD_BOUND -> TypePathElement.bound()
+                        TypePathOW2.TYPE_ARGUMENT -> TypePathElement.typeArgument(typePath.getStepArgument(it).toUByte())
+                        else -> throw IllegalArgumentException("invalid step")
+                    }
+                }.toList()
+        )
+    }
 }
 
 class TypePathElement private constructor(
