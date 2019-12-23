@@ -69,7 +69,7 @@ interface MethodVisitor {
      * @return a visitor to visit the annotation values
      */
     fun visitParameterAnnotation(
-        parameter: Int, descriptor: Type?, visible: Boolean
+        parameter: Int, descriptor: Type, visible: Boolean
     ): AnnotationVisitor?
 
     /**
