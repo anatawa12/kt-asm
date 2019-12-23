@@ -1,6 +1,7 @@
 package com.anatawa12.asm
 
 import org.objectweb.asm.Opcodes
+import org.objectweb.asm.Handle as HandleOW2
 
 /**
  * Created by anatawa12 on 2019/12/22.
@@ -15,15 +16,20 @@ class Handle private constructor(
     val descriptor: String,
     val isInterface: Boolean
 ) {
+    val ow2: HandleOW2 = HandleOW2(kind.id.toInt(), owner.internalName.name, name1, descriptor, isInterface)
+
     companion object {
-        fun getField(owner: Type, name: String, descriptor: Type): Handle
-                = Handle(Kind.GetField, owner, name, descriptor.descriptor, false)
-        fun putField(owner: Type, name: String, descriptor: Type): Handle
-                = Handle(Kind.PutField, owner, name, descriptor.descriptor, false)
-        fun getStatic(owner: Type, name: String, descriptor: Type): Handle
-                = Handle(Kind.GetStatic, owner, name, descriptor.descriptor, false)
-        fun putStatic(owner: Type, name: String, descriptor: Type): Handle
-                = Handle(Kind.PutStatic, owner, name, descriptor.descriptor, false)
+        fun getField(owner: Type, name: String, descriptor: Type): Handle =
+            Handle(Kind.GetField, owner, name, descriptor.descriptor, false)
+
+        fun putField(owner: Type, name: String, descriptor: Type): Handle =
+            Handle(Kind.PutField, owner, name, descriptor.descriptor, false)
+
+        fun getStatic(owner: Type, name: String, descriptor: Type): Handle =
+            Handle(Kind.GetStatic, owner, name, descriptor.descriptor, false)
+
+        fun putStatic(owner: Type, name: String, descriptor: Type): Handle =
+            Handle(Kind.PutStatic, owner, name, descriptor.descriptor, false)
 
         fun invokeVirtual(owner: Type, name: String, descriptor: MethodType): Handle
                 = Handle(Kind.InvokeVirtual, owner, name, descriptor.descriptor, false)
